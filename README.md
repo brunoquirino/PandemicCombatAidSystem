@@ -70,6 +70,13 @@ Projeto para o Sistema de Combate de Pandemias
 ### PUT /hospitais
 
 - Atualiza informações de um hospital
+- Modelo
+```bash
+{
+	"id": 2,
+	"percentualOcupacao": 92
+}
+```
 
 ### GET /hospitais/{id}
 
@@ -82,7 +89,8 @@ Projeto para o Sistema de Combate de Pandemias
 ### PUT /hospitais/trocar 
 
 - Faz a troca de recursos entre hospitais
-- Parametros 
+- Modelo
+ 
 ```bash
 {
 	"hospitalOrigemID": 2,
