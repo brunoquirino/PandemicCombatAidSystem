@@ -130,31 +130,50 @@ public class HospitalResource {
 		}
 	}
 	
+	/**
+	 * @return List<HospitalTO>
+	 */
 	@GetMapping(value = "/relatorios/hospitaisocupacaomaior90")
 	public List<HospitalTO> obterRelatorioHospitaisOcupacaoMaior90() {
 		return hospitalService.obterRelatorioHospitaisOcupacaoMaior90();
 	}
 	
+	/**
+	 * @return List<HospitalTO>
+	 */
 	@GetMapping(value = "/relatorios/hospitaisocupacaomenor90")
 	public List<HospitalTO> obterRelatorioHospitaisOcupacaoMenor90() {
 		return hospitalService.obterRelatorioHospitaisOcupacaoMenor90();
 	}
 
+	/**
+	 * @return List<HospitalTO>
+	 */
 	@GetMapping(value = "/relatorios/quantidaderecursoshospitais")
 	public List<HospitalTO> obterRelatorioQuantidadeRecursosPorHospitais() {
 		return hospitalService.obterRelatorioQuantidadeRecursosPorHospitais();
 	}
 
+	/**
+	 * @return List<HospitalTO>
+	 */
 	@GetMapping(value = "/relatorios/hospitaisocupacaomaior90tempo")
 	public List<HospitalTO> obterRelatorioHospitaisOcupacaoMaior90Tempo() {
 		return hospitalService.obterRelatorioHospitaisOcupacaoMaior90Tempo();
 	}
 
+	/**
+	 * @return List<HospitalTO>
+	 */
 	@GetMapping(value = "/relatorios/hospitaisocupacaomenor90tempo")
 	public List<HospitalTO> obterRelatorioHospitaisOcupacaoMenor90Tempo() {
 		return hospitalService.obterRelatorioHospitaisOcupacaoMenor90Tempo();
 	}
 
+	/**
+	 * Serviço relatório de historicos de transações
+	 * @return List<HospitalTO>
+	 */
 	@GetMapping(value = "/relatorios/historicotransacoes")
 	public List<TransacaoHistoricoTO> obterRelatorioHistoricoNegociacoes() {
 		return hospitalService.obterRelatorioHistoricoNegociacoes();

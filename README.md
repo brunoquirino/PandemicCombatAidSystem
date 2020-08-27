@@ -7,10 +7,6 @@ Projeto para o Sistema de Combate de Pandemias
 - As configurações de conexão banco estão no arquivo applicaton.properties
 - O setup inicial do banco de dados está no arquivo src/main/resources/migrations/V1_0__Setup_Inicial.sql
 
-#db:pcas 
-#user:pcas 
-#password:pcas00
-
 ## Rest Services 
 
 - Os serviços rest estão configurados no arquivo br.com.bruno.pcas.api.resource.HospitalResource
@@ -23,6 +19,53 @@ Projeto para o Sistema de Combate de Pandemias
 ### POST /hospitais
 
 - Inclui hospitais e seus recursos
+- Modelo
+```bash
+{
+    "nome": "Hospital Geral Santa Cecília",
+    "cnpj": "28431834000170",
+    "endereco": "Praça Caldas Brandão, S/N - Tambiá",
+    "cidade": "João Pessoa",
+    "uf": "PB",
+    "latitude": "-7.1230832",
+    "longitude": "-34.8806481",
+    "limiteOcupacao": 40,
+    "percentualOcupacao": 90,
+    "dataInclusao": null,
+    "recursos": [
+        {
+            "nome": "Jorge da Cunha",
+            "tipo": 1,
+            "hospitalID": 1
+        },
+        {
+            "nome": "Ana Lúcia da Silva",
+            "tipo": 1,
+            "hospitalID": 1
+        },
+        {
+            "nome": "Caio Cézar",
+            "tipo": 2,
+            "hospitalID": 1
+        },
+        {
+            "nome": "Respirador Samsung",
+            "tipo": 3,
+            "hospitalID": 1
+        },
+        {
+            "nome": "Tomógrafo X44H",
+            "tipo": 4,
+            "hospitalID": 1
+        },
+        {
+            "nome": "Fiat Fiorino 01",
+            "tipo": 5,
+            "hospitalID": 1
+        }
+    ]
+}
+```
 
 ### PUT /hospitais
 
@@ -39,6 +82,19 @@ Projeto para o Sistema de Combate de Pandemias
 ### PUT /hospitais/trocar 
 
 - Faz a troca de recursos entre hospitais
+- Parametros 
+```bash
+{
+	"hospitalOrigemID": 2,
+	"hospitalDestinoID": 1, 
+	"recursosOfertados": [
+		{ "tipo": 3 }, { "tipo": 3 }, { "tipo": 2 }
+	],
+	"recursosSolicitados": [
+		{ "tipo": 1 }, { "tipo": 5 }
+	]
+}
+```
 
 ## Relatórios
 
