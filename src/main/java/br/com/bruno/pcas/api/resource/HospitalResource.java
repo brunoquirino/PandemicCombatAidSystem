@@ -171,7 +171,7 @@ public class HospitalResource {
 	}
 
 	/**
-	 * Serviço relatório de historicos de transações
+	 * Serviço para relatório de historicos de transações
 	 * @return List<HospitalTO>
 	 */
 	@GetMapping(value = "/relatorios/historicotransacoes")
