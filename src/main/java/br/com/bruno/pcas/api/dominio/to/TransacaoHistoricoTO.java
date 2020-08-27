@@ -22,6 +22,15 @@ public class TransacaoHistoricoTO implements Serializable {
 	
 	private Date dataInclusao;
 	
+	private String hospitalOrigem;
+	
+	private String hospitalDestino;
+	
+	private String recursoOfertado;
+	
+	private String recursoSolicitado;
+	
+	
 	public TransacaoHistoricoTO() {
 		super();
 	}
@@ -80,6 +89,38 @@ public class TransacaoHistoricoTO implements Serializable {
 
 	public void setRecursosSolicitados(List<RecursoTO> recursosSolicitados) {
 		this.recursosSolicitados = recursosSolicitados;
+	}
+
+	public String getHospitalOrigem() {
+		return hospitalOrigem;
+	}
+
+	public void setHospitalOrigem(String hospitalOrigem) {
+		this.hospitalOrigem = hospitalOrigem;
+	}
+
+	public String getHospitalDestino() {
+		return hospitalDestino;
+	}
+
+	public void setHospitalDestino(String hospitalDestino) {
+		this.hospitalDestino = hospitalDestino;
+	}
+
+	public String getRecursoOfertado() {
+		return recursoOfertado;
+	}
+
+	public void setRecursoOfertado(String recursoOfertado) {
+		this.recursoOfertado = recursoOfertado;
+	}
+
+	public String getRecursoSolicitado() {
+		return recursoSolicitado;
+	}
+
+	public void setRecursoSolicitado(String recursoSolicitado) {
+		this.recursoSolicitado = recursoSolicitado;
 	}
 
 	@Override

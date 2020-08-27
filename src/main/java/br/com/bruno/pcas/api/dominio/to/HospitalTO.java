@@ -37,6 +37,18 @@ public class HospitalTO implements Serializable {
 	
 	private List<RecursoTO> recursos;
 	
+	private Long totalMedicos;
+	
+	private Long totalEnfermeiros;
+	
+	private Long totalRespiradores;
+	
+	private Long totalTomografos;
+	
+	private Long totalAmbulancias;
+	
+	private Integer dias;
+	
 	public HospitalTO() {
 		super();
 		this.recursos = new ArrayList<RecursoTO>();
@@ -165,6 +177,54 @@ public class HospitalTO implements Serializable {
 
 	public void setPercentualOcupacao(BigDecimal percentualOcupacao) {
 		this.percentualOcupacao = percentualOcupacao;
+	}
+
+	public Long getTotalMedicos() {
+		return totalMedicos;
+	}
+
+	public void setTotalMedicos(Long totalMedicos) {
+		this.totalMedicos = totalMedicos;
+	}
+
+	public Long getTotalEnfermeiros() {
+		return totalEnfermeiros;
+	}
+
+	public void setTotalEnfermeiros(Long totalEnfermeiros) {
+		this.totalEnfermeiros = totalEnfermeiros;
+	}
+
+	public Long getTotalRespiradores() {
+		return totalRespiradores;
+	}
+
+	public void setTotalRespiradores(Long totalRespiradores) {
+		this.totalRespiradores = totalRespiradores;
+	}
+
+	public Long getTotalTomografos() {
+		return totalTomografos;
+	}
+
+	public void setTotalTomografos(Long totalTomografos) {
+		this.totalTomografos = totalTomografos;
+	}
+
+	public Long getTotalAmbulancias() {
+		return totalAmbulancias;
+	}
+
+	public void setTotalAmbulancias(Long totalAmbulancias) {
+		this.totalAmbulancias = totalAmbulancias;
+	}
+
+	public Integer getDias() {
+		return dias;
+	}
+
+	public void setDias(Integer dias) {
+		this.dias = dias;
 	}
 
 	@Override

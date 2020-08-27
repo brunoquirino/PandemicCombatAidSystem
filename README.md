@@ -14,7 +14,7 @@ Projeto para o Sistema de Combate de Pandemias
 ## Rest Services 
 
 - Os serviços rest estão configurados no arquivo br.com.bruno.pcas.api.resource.HospitalResource
-#- /hospitais
+
 
 ### GET /hospitais
 

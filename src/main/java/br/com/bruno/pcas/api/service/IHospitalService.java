@@ -4,6 +4,8 @@ import java.util.List;
 
 import br.com.bruno.pcas.api.dominio.Hospital;
 import br.com.bruno.pcas.api.dominio.TransacoesHistorico;
+import br.com.bruno.pcas.api.dominio.to.HospitalTO;
+import br.com.bruno.pcas.api.dominio.to.TransacaoHistoricoTO;
 
 public interface IHospitalService {
 
@@ -16,4 +18,16 @@ public interface IHospitalService {
 	Hospital obter(Long id) throws ValidacaoException;
 
 	TransacoesHistorico trocarRecursos(TransacoesHistorico transacao) throws ValidacaoException;
+
+	List<HospitalTO> obterRelatorioHospitaisOcupacaoMenor90();
+
+	List<HospitalTO> obterRelatorioHospitaisOcupacaoMaior90();
+
+	List<HospitalTO> obterRelatorioQuantidadeRecursosPorHospitais();
+
+	List<HospitalTO> obterRelatorioHospitaisOcupacaoMaior90Tempo();
+
+	List<HospitalTO> obterRelatorioHospitaisOcupacaoMenor90Tempo();
+
+	List<TransacaoHistoricoTO> obterRelatorioHistoricoNegociacoes();
 }

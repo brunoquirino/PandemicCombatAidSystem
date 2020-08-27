@@ -129,4 +129,34 @@ public class HospitalResource {
 			return ResponseEntity.status(400).body(e.getErros());
 		}
 	}
+	
+	@GetMapping(value = "/relatorios/hospitaisocupacaomaior90")
+	public List<HospitalTO> obterRelatorioHospitaisOcupacaoMaior90() {
+		return hospitalService.obterRelatorioHospitaisOcupacaoMaior90();
+	}
+	
+	@GetMapping(value = "/relatorios/hospitaisocupacaomenor90")
+	public List<HospitalTO> obterRelatorioHospitaisOcupacaoMenor90() {
+		return hospitalService.obterRelatorioHospitaisOcupacaoMenor90();
+	}
+
+	@GetMapping(value = "/relatorios/quantidaderecursoshospitais")
+	public List<HospitalTO> obterRelatorioQuantidadeRecursosPorHospitais() {
+		return hospitalService.obterRelatorioQuantidadeRecursosPorHospitais();
+	}
+
+	@GetMapping(value = "/relatorios/hospitaisocupacaomaior90tempo")
+	public List<HospitalTO> obterRelatorioHospitaisOcupacaoMaior90Tempo() {
+		return hospitalService.obterRelatorioHospitaisOcupacaoMaior90Tempo();
+	}
+
+	@GetMapping(value = "/relatorios/hospitaisocupacaomenor90tempo")
+	public List<HospitalTO> obterRelatorioHospitaisOcupacaoMenor90Tempo() {
+		return hospitalService.obterRelatorioHospitaisOcupacaoMenor90Tempo();
+	}
+
+	@GetMapping(value = "/relatorios/historicotransacoes")
+	public List<TransacaoHistoricoTO> obterRelatorioHistoricoNegociacoes() {
+		return hospitalService.obterRelatorioHistoricoNegociacoes();
+	}
 }
