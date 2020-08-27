@@ -8,9 +8,10 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import br.com.bruno.pcas.api.dominio.CsTipoRecurso;
 import br.com.bruno.pcas.api.dominio.Hospital;
 import br.com.bruno.pcas.api.dominio.Recurso;
-import br.com.bruno.pcas.api.dominio.TransacoesHistorico;
+import br.com.bruno.pcas.api.dominio.TransacaoHistorico;
 import br.com.bruno.pcas.api.dominio.to.HospitalTO;
 import br.com.bruno.pcas.api.dominio.to.TransacaoHistoricoTO;
 import br.com.bruno.pcas.api.integracao.dao.IDaoGenerico;
@@ -54,26 +55,30 @@ public class HospitalService implements IHospitalService {
 	 * <p>Este método recebe uma solicitação com o hospital de origem onde os recursos solicitados serão retirados, 
 	 * e um hospital de destino, onde os recursos ofertados serão alocados.</p>
 	 * 
-	 * @param transacao {@link TransacoesHistorico}
+	 * @param transacao {@link TransacaoHistorico}
 	 * @return TransacoesHistorico
 	 * @exception ValidacaoException
 	 */
 	@Override
-	public TransacoesHistorico trocarRecursos(TransacoesHistorico transacao) throws ValidacaoException {
+	public TransacaoHistorico trocarRecursos(TransacaoHistorico transacao) throws ValidacaoException {
 		Hospital hospitalOrigem = dao.obter(Hospital.class, transacao.getHospitalOrigem().getId());
 		Hospital hospitalDestino = dao.obter(Hospital.class, transacao.getHospitalDestino().getId());
 
 		List<Integer> tiposSolicitados = new ArrayList<Integer>();
 		Integer pontosSolicitados = 0;
 		for (Recurso recurso : transacao.getRecursosSolicitados()) {
-			pontosSolicitados += recurso.getCsTipoRecurso().getPontos();
+			CsTipoRecurso csTipoRecurso = CsTipoRecurso.valueOf(recurso.getTipo());
+			
+			pontosSolicitados += csTipoRecurso != null ? csTipoRecurso.getPontos() : 0;
 			tiposSolicitados.add(recurso.getTipo());
 		}
 
 		List<Integer> tiposOfertados = new ArrayList<Integer>();
 		Integer pontosOfertados = 0; 
 		for (Recurso recurso : transacao.getRecursosOfertados()) {
-			pontosOfertados += recurso.getCsTipoRecurso().getPontos();
+			CsTipoRecurso csTipoRecurso = CsTipoRecurso.valueOf(recurso.getTipo());
+			
+			pontosOfertados += csTipoRecurso != null ? csTipoRecurso.getPontos() : 0;
 			tiposOfertados.add(recurso.getTipo());
 		}
 		

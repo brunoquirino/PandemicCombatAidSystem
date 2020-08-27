@@ -1,10 +1,11 @@
 package br.com.bruno.pcas.api.dominio.to;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import br.com.bruno.pcas.api.dominio.TransacoesHistorico;
+import br.com.bruno.pcas.api.dominio.TransacaoHistorico;
 
 public class TransacaoHistoricoTO implements Serializable {
 
@@ -35,7 +36,7 @@ public class TransacaoHistoricoTO implements Serializable {
 		super();
 	}
 	
-	public TransacaoHistoricoTO(TransacoesHistorico transacao) {
+	public TransacaoHistoricoTO(TransacaoHistorico transacao) {
 		this();
 		this.id = transacao.getId();
 		this.hospitalOrigemID = transacao.getHospitalOrigem().getId();
@@ -146,5 +147,15 @@ public class TransacaoHistoricoTO implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public void addRecursosOfertados(RecursoTO recurso) {
+		this.recursosSolicitados = new ArrayList<RecursoTO>();
+		this.recursosSolicitados.add(recurso);
+	}
+
+	public void addRecursosSolicitados(RecursoTO recurso) {
+		this.recursosOfertados = new ArrayList<RecursoTO>();
+		this.recursosOfertados.add(recurso);
 	}
 }

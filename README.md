@@ -54,10 +54,6 @@ Quantidade média de cada tipo de recurso por hospital (Ex: 2 tomógrafos por ho
 
 - GET /hospitais/relatorios/quantidaderecursoshospitais
 
-Pontos perdidos devido a traidores.
-
-- *?
-
 Hospital em super-lotação (ocupação maior que 90%) a mais tempo.
 
 - GET /hospitais/relatorios/hospitaisocupacaomaior90tempo

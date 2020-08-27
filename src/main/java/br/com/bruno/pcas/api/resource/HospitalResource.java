@@ -18,18 +18,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.bruno.pcas.api.dominio.Hospital;
-import br.com.bruno.pcas.api.dominio.TransacoesHistorico;
+import br.com.bruno.pcas.api.dominio.TransacaoHistorico;
 import br.com.bruno.pcas.api.dominio.to.HospitalTO;
 import br.com.bruno.pcas.api.dominio.to.TransacaoHistoricoTO;
 import br.com.bruno.pcas.api.service.IHospitalService;
 import br.com.bruno.pcas.api.service.ValidacaoException;
 
 @RestController
-@RequestMapping(value = "hospitais", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "hospitais", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class HospitalResource {
 
 	@Inject
-	IHospitalService hospitalService;
+	private IHospitalService hospitalService;
 
 	/**
 	 * Método para listar todos os hospitais cadastrados e seus recursos
@@ -73,11 +73,11 @@ public class HospitalResource {
 	 */
 	@Transactional
 	@PutMapping
-	public Hospital alterar(@RequestBody HospitalTO hospitalTo) {
+	public HospitalTO alterar(@RequestBody HospitalTO hospitalTo) {
 		Hospital hospital = new Hospital(hospitalTo);
 		hospital.setId(hospitalTo.getId());
 		
-		return hospitalService.alterar(hospital);
+		return new HospitalTO(hospitalService.alterar(hospital));
 	}
 
 	/**
@@ -120,7 +120,7 @@ public class HospitalResource {
 	@PutMapping(value = "/trocar")
 	public ResponseEntity<?> trocarRecursos(@RequestBody TransacaoHistoricoTO transacaoTo) {
 		try {
-			TransacoesHistorico transacao = new TransacoesHistorico(transacaoTo);
+			TransacaoHistorico transacao = new TransacaoHistorico(transacaoTo);
 			
 			hospitalService.trocarRecursos(transacao);
 			

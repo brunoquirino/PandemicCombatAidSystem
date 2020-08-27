@@ -25,7 +25,7 @@ import br.com.bruno.pcas.api.dominio.to.TransacaoHistoricoTO;
 
 @Entity
 @Table(name = "transacoes_historico")
-public class TransacoesHistorico implements Serializable {
+public class TransacaoHistorico implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -62,11 +62,11 @@ public class TransacoesHistorico implements Serializable {
         @JoinColumn(name = "recurso_id")})
 	private List<Recurso> recursosOfertados;
 	
-	public TransacoesHistorico() {
+	public TransacaoHistorico() {
 		super();
 	}
 
-	public TransacoesHistorico(TransacaoHistoricoTO transacaoTo) {
+	public TransacaoHistorico(TransacaoHistoricoTO transacaoTo) {
 		this.id = transacaoTo.getId();
 		this.hospitalOrigem = new Hospital(transacaoTo.getHospitalOrigemID());
 		this.hospitalDestino = new Hospital(transacaoTo.getHospitalDestinoID());
@@ -164,7 +164,7 @@ public class TransacoesHistorico implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		TransacoesHistorico other = (TransacoesHistorico) obj;
+		TransacaoHistorico other = (TransacaoHistorico) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

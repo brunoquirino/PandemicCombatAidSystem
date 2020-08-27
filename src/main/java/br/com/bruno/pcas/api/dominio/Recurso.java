@@ -58,7 +58,7 @@ public class Recurso implements Serializable {
         @JoinColumn(name = "recurso_id")},
             inverseJoinColumns = {
         @JoinColumn(name = "transacao_id")})
-	private List<TransacoesHistorico> recursosSolicitados;
+	private List<TransacaoHistorico> recursosSolicitados;
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     @JoinTable(name = "recursos_ofertados_transacoes",
@@ -66,7 +66,7 @@ public class Recurso implements Serializable {
         @JoinColumn(name = "recurso_id")},
             inverseJoinColumns = {
         @JoinColumn(name = "transacao_id")})
-	private List<TransacoesHistorico> recursosOfertados;
+	private List<TransacaoHistorico> recursosOfertados;
 
 	public Recurso() {
 		super();
@@ -116,19 +116,19 @@ public class Recurso implements Serializable {
 		this.dataInclusao = dataInclusao;
 	}
 
-	public List<TransacoesHistorico> getRecursosSolicitados() {
+	public List<TransacaoHistorico> getRecursosSolicitados() {
 		return recursosSolicitados;
 	}
 
-	public void setRecursosSolicitados(List<TransacoesHistorico> recursosSolicitados) {
+	public void setRecursosSolicitados(List<TransacaoHistorico> recursosSolicitados) {
 		this.recursosSolicitados = recursosSolicitados;
 	}
 
-	public List<TransacoesHistorico> getRecursosOfertados() {
+	public List<TransacaoHistorico> getRecursosOfertados() {
 		return recursosOfertados;
 	}
 
-	public void setRecursosOfertados(List<TransacoesHistorico> recursosOfertados) {
+	public void setRecursosOfertados(List<TransacaoHistorico> recursosOfertados) {
 		this.recursosOfertados = recursosOfertados;
 	}
 
