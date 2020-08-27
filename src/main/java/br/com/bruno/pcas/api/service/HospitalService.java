@@ -1,6 +1,7 @@
 package br.com.bruno.pcas.api.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -19,11 +20,15 @@ public class HospitalService implements IHospitalService {
 
 	@Override
 	public Hospital incluir(Hospital hospital) throws ValidacaoException {
+		hospital.setDataInclusao(new Date());
+		
 		return dao.incluir(hospital);
 	}
 
 	@Override
 	public Hospital alterar(Hospital hospital) throws ValidacaoException {
+		hospital.setDataAtualzacao(new Date());
+		
 		return dao.alterar(hospital);
 	}
 
@@ -42,7 +47,7 @@ public class HospitalService implements IHospitalService {
 	}
 
 	/**
-	 * <p>Método para fazer troca de recursos entre hospitais.</p>
+	 * Método para fazer troca de recursos entre hospitais.
 	 * <p>Este método recebe uma solicitação com o hospital de origem onde os recursos solicitados serão retirados, 
 	 * e um hospital de destino, onde os recursos ofertados serão alocados.</p>
 	 * 

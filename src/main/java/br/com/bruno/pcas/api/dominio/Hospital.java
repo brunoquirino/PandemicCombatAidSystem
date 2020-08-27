@@ -59,6 +59,10 @@ public class Hospital implements Serializable {
 	@Column(name = "percentual_ocupacao")
 	private BigDecimal percentualOcupacao;
 	
+	@Column(name = "data_atualizacao")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date dataAtualzacao;
+	
 	@Column(name = "data_inclusao")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataInclusao;
@@ -184,6 +188,14 @@ public class Hospital implements Serializable {
 
 	public void setPercentualOcupacao(BigDecimal percentualOcupacao) {
 		this.percentualOcupacao = percentualOcupacao;
+	}
+
+	public Date getDataAtualzacao() {
+		return dataAtualzacao;
+	}
+
+	public void setDataAtualzacao(Date dataAtualzacao) {
+		this.dataAtualzacao = dataAtualzacao;
 	}
 
 	@Override
