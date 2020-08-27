@@ -1,4 +1,4 @@
-package br.com.bruno.pcas.api.dominio;
+package br.com.bruno.pcas.api.dominio.to;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -6,88 +6,69 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import br.com.bruno.pcas.api.dominio.Hospital;
+import br.com.bruno.pcas.api.dominio.Recurso;
 
-import br.com.bruno.pcas.api.dominio.to.HospitalTO;
-import br.com.bruno.pcas.api.dominio.to.RecursoTO;
-
-@Entity
-@Table(name = "hospitais")
-public class Hospital implements Serializable {
+public class HospitalTO implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@Column(name = "id")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "nome")
 	private String nome;
 	
-	@Column(name = "cnpj")
 	private String cnpj;
 	
-	@Column(name = "endereco")
 	private String endereco;
 	
-	@Column(name = "cidade")
 	private String cidade;
 	
-	@Column(name = "uf")
 	private String uf;
 	
-	@Column(name = "latitude")
 	private String latitude;
 	
-	@Column(name = "longitude")
 	private String longitude;
 	
-	@Column(name = "limite_ocupacao")
 	private Integer limiteOcupacao; 
 	
-	@Column(name = "percentual_ocupacao")
 	private BigDecimal percentualOcupacao;
 	
-	@Column(name = "data_inclusao")
-	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataInclusao;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "hospital", cascade = CascadeType.ALL)
-	private List<Recurso> recursos;
+	private List<RecursoTO> recursos;
 	
-	public Hospital() {
+	public HospitalTO() {
 		super();
+		this.recursos = new ArrayList<RecursoTO>();
 	}
 
-	public Hospital(HospitalTO hospitalTo) {
-		this.cnpj = hospitalTo.getCnpj();
-		this.nome = hospitalTo.getNome();
-		this.endereco = hospitalTo.getEndereco();
-		this.cidade = hospitalTo.getCidade();
-		this.uf = hospitalTo.getUf();
-		this.latitude = hospitalTo.getLatitude();
-		this.longitude = hospitalTo.getLongitude();
-		this.percentualOcupacao = hospitalTo.getPercentualOcupacao();
-		this.limiteOcupacao = hospitalTo.getLimiteOcupacao();
-		this.dataInclusao = new Date();
-		
-		this.addRecursos(hospitalTo.getRecursos());
-	}
-
-	public Hospital(Long id) {
+	public HospitalTO(Hospital hospital) {
 		this();
-		this.id = id;
+		this.setId(hospital.getId());
+		this.setNome(hospital.getNome());
+		this.setCnpj(hospital.getCnpj());
+		this.setEndereco(hospital.getEndereco());
+		this.setCidade(hospital.getCidade());
+		this.setUf(hospital.getUf());
+		this.setLatitude(hospital.getLatitude());
+		this.setLongitude(hospital.getLongitude());
+		this.setPercentualOcupacao(hospital.getPercentualOcupacao());
+		this.setLimiteOcupacao(hospital.getLimiteOcupacao());
+		
+		this.addRecursos(hospital.getRecursos());
+	}
+	
+	public void addRecursos(List<Recurso> recursos) {
+		this.recursos = new ArrayList<RecursoTO>();
+		for (Recurso recurso : recursos) {
+			RecursoTO recursoTo = new RecursoTO(recurso);
+			recursoTo.setId(recurso.getId());
+			recursoTo.setNome(recurso.getNome());
+			recursoTo.setTipo(recurso.getTipo());
+			recursoTo.setHospitalID(this.getId());
+			
+			this.recursos.add(recursoTo);
+		}
 	}
 
 	public Long getId() {
@@ -170,11 +151,11 @@ public class Hospital implements Serializable {
 		this.limiteOcupacao = limiteOcupacao;
 	}
 
-	public List<Recurso> getRecursos() {
+	public List<RecursoTO> getRecursos() {
 		return recursos;
 	}
 
-	public void setRecursos(List<Recurso> recursos) {
+	public void setRecursos(List<RecursoTO> recursos) {
 		this.recursos = recursos;
 	}
 
@@ -202,25 +183,12 @@ public class Hospital implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Hospital other = (Hospital) obj;
+		HospitalTO other = (HospitalTO) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}
-
-	public void addRecursos(List<RecursoTO> recursos) {
-		this.recursos = new ArrayList<Recurso>();
-		for (RecursoTO recursoTO : recursos) {
-			Recurso recurso = new Recurso();
-			recurso.setNome(recursoTO.getNome());
-			recurso.setTipo(recursoTO.getTipo());
-			recurso.setDataInclusao(new Date());
-			recurso.setHospital(this);
-			
-			this.recursos.add(recurso);
-		}	
 	}
 }

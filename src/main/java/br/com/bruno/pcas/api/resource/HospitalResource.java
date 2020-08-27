@@ -1,21 +1,28 @@
 package br.com.bruno.pcas.api.resource;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.bruno.pcas.api.dominio.ConsultaHospital;
 import br.com.bruno.pcas.api.dominio.Hospital;
+import br.com.bruno.pcas.api.dominio.TransacoesHistorico;
+import br.com.bruno.pcas.api.dominio.to.HospitalTO;
+import br.com.bruno.pcas.api.dominio.to.TransacaoHistoricoTO;
 import br.com.bruno.pcas.api.service.IHospitalService;
+import br.com.bruno.pcas.api.service.ValidacaoException;
 
 @RestController
 @RequestMapping(value = "hospitais", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -24,29 +31,102 @@ public class HospitalResource {
 	@Inject
 	IHospitalService hospitalService;
 
+	/**
+	 * Método para listar todos os hospitais cadastrados e seus recursos
+	 * 
+	 * @return List<HospitalTO>
+	 */
 	@GetMapping
-	public List<Hospital> consultar(ConsultaHospital consulta) {
-		return hospitalService.listar(consulta);
+	public List<HospitalTO> consultar() {
+		List<Hospital> lista = hospitalService.listar();
+		List<HospitalTO> hospitais = new ArrayList<HospitalTO>();
+		for (Hospital hospital : lista) {
+			HospitalTO hospitalTo = new HospitalTO(hospital);
+			
+			hospitais.add(hospitalTo);
+		}
+		
+		
+		return hospitais;
 	}
 
+	/**
+	 * Método para incluir hospitais e seus recursos
+	 * 
+	 * @param hospitalTo
+	 * @return HospitalTO
+	 */
+	@Transactional
 	@PostMapping
-	public Hospital incluir(Hospital hospital) {
-		return hospitalService.incluir(hospital);
+	public HospitalTO incluir(@RequestBody HospitalTO hospitalTo) {
+		Hospital hospital = new Hospital(hospitalTo);
+		
+		return new HospitalTO(hospitalService.incluir(hospital));
 	}
 
+	/**
+	 * Método para atualização de informações de um hospital
+	 *  
+	 * @param hospitalTo
+	 * @return HospitalTO
+	 * @see {@link HospitalTO}
+	 */
+	@Transactional
 	@PutMapping
-	public Hospital alterar(Hospital hospital) {
+	public Hospital alterar(@RequestBody HospitalTO hospitalTo) {
+		Hospital hospital = new Hospital(hospitalTo);
+		hospital.setId(hospitalTo.getId());
+		
 		return hospitalService.alterar(hospital);
 	}
 
-	@DeleteMapping
-	public void excluir(Hospital hospital) {
-		hospitalService.excluir(hospital);
-	}
-	
+	/**
+	 * Método para obter um hospital por ID 
+	 * 
+	 * @param id
+	 * @return HospitalTO
+	 */
 	@GetMapping
 	@RequestMapping(value = "/{id}")
-	public Hospital obter(@PathVariable("id") Long id) {
-		return hospitalService.obter(id);
+	public HospitalTO obter(@PathVariable("id") Long id) {
+		Hospital hospital = hospitalService.obter(id);
+		HospitalTO hospitalTO = new HospitalTO(hospital);
+		
+		return hospitalTO;
+	}
+	
+	/**
+	 * Método para obter percentual de ocupação por ID do hospital
+	 * 
+	 * @param id
+	 * @return {@link BigDecimal}
+	 */
+	@GetMapping
+	@RequestMapping(value = "/ocupacao/{id}")
+	public BigDecimal obterPercentualOcupacaoPorHospitalID(@PathVariable("id") Long id) {
+		Hospital hospital = hospitalService.obter(id);
+		HospitalTO hospitalTO = new HospitalTO(hospital);
+		
+		return hospitalTO.getPercentualOcupacao();
+	}
+	
+	/**
+	 * Método para fazer trocas de recursos entre hospitais
+	 * 
+	 * @param transacao
+	 * @return TransacoesHistorico
+	 */
+	@Transactional
+	@PutMapping(value = "/trocar")
+	public ResponseEntity<?> trocarRecursos(@RequestBody TransacaoHistoricoTO transacaoTo) {
+		try {
+			TransacoesHistorico transacao = new TransacoesHistorico(transacaoTo);
+			
+			hospitalService.trocarRecursos(transacao);
+			
+			return ResponseEntity.ok().build();
+		} catch (ValidacaoException e) {
+			return ResponseEntity.status(400).body(e.getErros());
+		}
 	}
 }

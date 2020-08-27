@@ -44,14 +44,13 @@ public enum CsTipoRecurso {
 		this.pontos = pontos;
 	}
 	
-	public CsTipoRecurso valueOf(Integer codigo) {
-		CsTipoRecurso cs = MEDICO;
-		for (CsTipoRecurso tipo : values()) {
-			if (cs.codigo.equals(codigo)) {
-				cs = tipo;
+	public static CsTipoRecurso valueOf(Integer codigo) {
+    	for (CsTipoRecurso cs : values()) {
+			if(cs.getCodigo().equals(codigo)) {
+				return cs;
 			}
 		}
-		
-		return cs;
-	}
+    	
+    	return null;
+    }
 }

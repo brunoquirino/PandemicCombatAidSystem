@@ -1,6 +1,8 @@
 package br.com.bruno.pcas.api.dominio;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,11 +12,23 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "recursos")
+@NamedQueries({
+	@NamedQuery(name = "consultarRecursosPorTipoHospital",
+				query = "SELECT recurso FROM Recurso recurso" +
+						" WHERE recurso.hospital.id = ?2" +
+						"   AND tipo IN(?1)")
+})
 public class Recurso implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -30,12 +44,36 @@ public class Recurso implements Serializable {
 	@Column(name = "tipo_id")
 	private Integer tipo;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE )
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	@JoinColumn(name="hospital_id")
 	private Hospital hospital;
+	
+	@Column(name = "data_inclusao")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date dataInclusao;
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
+    @JoinTable(name = "recursos_solicitados_transacoes",
+            joinColumns = {
+        @JoinColumn(name = "recurso_id")},
+            inverseJoinColumns = {
+        @JoinColumn(name = "transacao_id")})
+	private List<TransacoesHistorico> recursosSolicitados;
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
+    @JoinTable(name = "recursos_ofertados_transacoes",
+            joinColumns = {
+        @JoinColumn(name = "recurso_id")},
+            inverseJoinColumns = {
+        @JoinColumn(name = "transacao_id")})
+	private List<TransacoesHistorico> recursosOfertados;
 
 	public Recurso() {
 		super();
+	}
+	
+	public CsTipoRecurso getCsTipoRecurso() {
+		return CsTipoRecurso.valueOf(this.tipo);
 	}
 
 	public Long getId() {
@@ -68,6 +106,30 @@ public class Recurso implements Serializable {
 
 	public void setHospital(Hospital hospital) {
 		this.hospital = hospital;
+	}
+
+	public Date getDataInclusao() {
+		return dataInclusao;
+	}
+
+	public void setDataInclusao(Date dataInclusao) {
+		this.dataInclusao = dataInclusao;
+	}
+
+	public List<TransacoesHistorico> getRecursosSolicitados() {
+		return recursosSolicitados;
+	}
+
+	public void setRecursosSolicitados(List<TransacoesHistorico> recursosSolicitados) {
+		this.recursosSolicitados = recursosSolicitados;
+	}
+
+	public List<TransacoesHistorico> getRecursosOfertados() {
+		return recursosOfertados;
+	}
+
+	public void setRecursosOfertados(List<TransacoesHistorico> recursosOfertados) {
+		this.recursosOfertados = recursosOfertados;
 	}
 
 	@Override
